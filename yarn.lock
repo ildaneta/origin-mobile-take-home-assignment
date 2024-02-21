@@ -1969,6 +1969,16 @@
   dependencies:
     plist "^3.1.0"
 
+"@react-native-firebase/firestore@^18.9.0":
+  version "18.9.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-18.9.0.tgz#4285e51271010f97a62fdeeecb4f909b90dc35c5"
+  integrity sha512-Hma+LB5wAYt+NgGxALWxCwrTkUz7jNXHIRZLghzMK4RFmhVCaL7q2qaFvMfbu58UmRbcocGetykI4R1qQOxY9w==
+
+"@react-native-firebase/storage@^18.9.0":
+  version "18.9.0"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/storage/-/storage-18.9.0.tgz#356f8c5ed61e8185cfcb97966b2c510b3ebecf51"
+  integrity sha512-I2lq7CXSzVdYfhzhlfdgXrcLJaP4qBsJidqa3TiYoZDNKwN2djLFShM8n83IDjRpGkzYctvWD/yHtErtkFrmLw==
+
 "@react-native/assets-registry@0.73.1", "@react-native/assets-registry@~0.73.1":
   version "0.73.1"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.73.1.tgz#e2a6b73b16c183a270f338dc69c36039b3946e85"

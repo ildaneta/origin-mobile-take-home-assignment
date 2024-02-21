@@ -10,11 +10,15 @@
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.3",
+    "@tamagui/config": "^1.90.6",
+    "@tamagui/lucide-icons": "^1.90.5",
     "expo": "~50.0.7",
     "expo-font": "~11.10.3",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
-    "react-native": "0.73.4"
+    "react-native": "0.73.4",
+    "react-native-svg": "^14.1.0",
+    "tamagui": "^1.90.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

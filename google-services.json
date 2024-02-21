@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "918309766936",
+    "project_id": "origin-dd518",
+    "storage_bucket": "origin-dd518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:918309766936:android:8c753bf01145f3caa1c06d",
+        "android_client_info": {
+          "package_name": "com.ildaneta.origin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9j1jePvItWzctb1PkwFP0ar3lFjuHO0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,15 +1,20 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { TamaguiProvider } from 'tamagui';
+import config from './tamagui.config';
+
 import {
   useFonts,
   Poppins_400Regular,
+  Poppins_500Medium,
   Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
 
 export default function App() {
   let [fontsLoaded, fontError] = useFonts({
     Poppins_400Regular,
+    Poppins_500Medium,
     Poppins_600SemiBold,
   });
 
@@ -18,10 +23,12 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <TamaguiProvider config={config}>
+      <View style={styles.container}>
+        <Text>Open up App.tsx to start working on your app!</Text>
+        <StatusBar style="auto" />
+      </View>
+    </TamaguiProvider>
   );
 }
 

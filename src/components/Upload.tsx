@@ -10,7 +10,7 @@ interface IUpload {
   label?: string;
   allowedTypes: string;
   onPress: () => void;
-  borderType: 'dashed' | 'solid';
+  borderType?: 'dashed' | 'solid';
 
   hasError: boolean;
 }

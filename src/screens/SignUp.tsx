@@ -5,13 +5,14 @@ import Container from '../components/Container';
 import Input from '../components/Input';
 import HeaderBack from '../components/HeaderBack';
 import Text from '../components/Text';
+import Upload from '../components/Upload';
+import SolidButton from '../components/SolidButton';
 
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { Eye } from '@tamagui/lucide-icons';
-import Upload from '../components/Upload';
 
 const schema = Yup.object().shape({
   name: Yup.string().required(),
@@ -57,11 +58,7 @@ const SignUp = (): JSX.Element => {
             Try Origin free
           </Text>
 
-          <Text color="$primary700" fontSize={'$4'} marginTop={40}>
-            Create an account
-          </Text>
-
-          <View marginTop={16} />
+          <View marginTop={40} />
 
           <Input
             control={control}
@@ -106,6 +103,10 @@ const SignUp = (): JSX.Element => {
             allowedTypes="JPG, PNG, JPEG"
             label="Upload your selfie"
           />
+
+          <View marginTop={36} />
+
+          <SolidButton label="Create account" onPress={() => {}} />
         </View>
       </>
     </Container>

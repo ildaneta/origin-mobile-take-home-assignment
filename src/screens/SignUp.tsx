@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { Eye } from '@tamagui/lucide-icons';
+import { Eye, EyeOff } from '@tamagui/lucide-icons';
 
 import { ISignUp } from '../types/auth';
 
@@ -35,6 +35,10 @@ const SignUp = (): JSX.Element => {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [
+    isSecureTextEntryPasswordEnabled,
+    setIsSecureTextEntryPasswordEnabled,
+  ] = useState(true);
 
   const { setUserData, setIsUserLogged } = useUserStore();
 
@@ -141,7 +145,19 @@ const SignUp = (): JSX.Element => {
             isFocused={isPasswordFocused}
             onBlur={() => setIsPasswordFocused(false)}
             onFocus={() => setIsPasswordFocused(true)}
-            iconButton={<Eye color={'$primary300'} />}
+            iconButton={
+              isSecureTextEntryPasswordEnabled ? (
+                <EyeOff color={'$primary300'} />
+              ) : (
+                <Eye color={'$primary300'} />
+              )
+            }
+            iconButtonPress={() =>
+              setIsSecureTextEntryPasswordEnabled(
+                !isSecureTextEntryPasswordEnabled
+              )
+            }
+            secureTextEntry={isSecureTextEntryPasswordEnabled}
           />
 
           {!!errors.password && (

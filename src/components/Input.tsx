@@ -36,7 +36,9 @@ const Input = ({
       paddingHorizontal={14}
       paddingTop={'$2.5'}
       paddingBottom={8}
-      borderColor={hasError ? '$error500' : '$gray200'}
+      borderColor={
+        hasError ? '$error500' : isFocused ? '$primary700' : '$gray200'
+      }
     >
       <Text
         fontFamily={'$body'}

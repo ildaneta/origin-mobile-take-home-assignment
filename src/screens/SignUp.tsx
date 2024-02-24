@@ -24,6 +24,11 @@ import { signUp } from '../firebase/auth';
 
 import { useUserStore } from '../stores/user';
 
+import { StackRoutes } from '../routes/stack.routes';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 const schema = Yup.object().shape({
   name: Yup.string().required('name is required'),
   email: Yup.string().required('email is required').email().trim(),
@@ -40,7 +45,9 @@ const SignUp = (): JSX.Element => {
     setIsSecureTextEntryPasswordEnabled,
   ] = useState(true);
 
-  const { setUserData, setIsUserLogged } = useUserStore();
+  const { setUserData, setIsUserLogged, setCurrentScreenName } = useUserStore();
+  const { goBack } =
+    useNavigation<NavigationProp<StackRoutes, 'loginOptions'>>();
 
   const {
     control,
@@ -58,9 +65,18 @@ const SignUp = (): JSX.Element => {
   const onSubmit = async ({ email, password, name }: ISignUp) => {
     setIsLoading(true);
 
-    await signUp({ email, password })
-      .then(async () => {
+    try {
+      await signUp({ email, password }).then(async () => {
         const user = firebase.auth().currentUser;
+
+        await firebase
+          .auth()
+          .currentUser?.updateProfile({
+            displayName: name,
+          })
+          .catch((error) =>
+            console.error('Error updating user profile: ', error)
+          );
 
         if (user) {
           setUserData({ name, email: user.email, uid: user.uid });
@@ -68,35 +84,56 @@ const SignUp = (): JSX.Element => {
           await setUserDataFS({ email: user.email, uid: user.uid, name })
             .then(() => {
               setIsUserLogged({ isLogged: true });
-              // TODO navigate to home screen
+              setCurrentScreenName({ currentScreenName: 'home' });
             })
             .catch((err) =>
               console.log('Error setting user data within users: ', err)
             );
         }
-      })
-      .catch((error) => {
-        console.log(error);
-
-        if (error.code === 'auth/email-already-in-use') {
-          Alert.alert('That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
-          Alert.alert('That email address is invalid!');
-        }
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
+    } catch (error: any) {
+      console.log(error);
+
+      if (error.code === 'auth/email-already-in-use') {
+        Alert.alert('That email address is already in use!');
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        Alert.alert('That email address is invalid!');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  return (
-    <Container hasPaddingHorizontal={false}>
-      <>
-        <HeaderBack onPress={() => {}} />
+  const Header = () => (
+    <SafeAreaView>
+      <View paddingHorizontal={10} marginTop={16}>
+        <HeaderBack onPress={() => goBack()} />
+      </View>
+    </SafeAreaView>
+  );
 
-        <View paddingHorizontal={20} marginTop={20}>
+  const ActionButton = () => (
+    <>
+      <View marginTop={36} />
+
+      <SolidButton
+        label="Create account"
+        onPress={handleSubmit(onSubmit)}
+        isLoading={isLoading}
+      />
+
+      <View marginBottom={30} />
+    </>
+  );
+
+  return (
+    <>
+      <Header />
+
+      <Container>
+        <>
           <Text alignSelf="center" color="$primary700" fontSize={'$4'}>
             Get started with Origin
           </Text>
@@ -173,18 +210,10 @@ const SignUp = (): JSX.Element => {
             label="Upload your selfie"
           />
 
-          <View marginTop={36} />
-
-          <SolidButton
-            label="Create account"
-            onPress={handleSubmit(onSubmit)}
-            isLoading={isLoading}
-          />
-
-          <View marginBottom={20} />
-        </View>
-      </>
-    </Container>
+          <ActionButton />
+        </>
+      </Container>
+    </>
   );
 };
 

@@ -11,7 +11,6 @@ interface IUpload {
   allowedTypes: string;
   onPress: () => void;
   borderType?: 'dashed' | 'solid';
-
   hasError: boolean;
 }
 

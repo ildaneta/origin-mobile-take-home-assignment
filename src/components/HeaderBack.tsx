@@ -19,7 +19,7 @@ const HeaderBack = ({ onPress }: IHeaderBack): JSX.Element => {
           borderRadius: 25,
           justifyContent: 'center',
           alignItems: 'center',
-          marginLeft: 10,
+          paddingLeft: -10,
         }}
       >
         <ArrowLeft width={'$5'} height={'$5'} color="$primary700" />

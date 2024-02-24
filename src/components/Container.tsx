@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { View, ScrollView } from 'tamagui';
-
-import { ANDROID_STATUS_BAR_HEIGHT, IS_IOS } from '../utils/device';
 
 interface IContainer {
   hasScroll?: boolean;
@@ -17,22 +15,22 @@ const Container = ({
   children,
   hasPaddingHorizontal = true,
 }: IContainer): JSX.Element => {
-  const insets = useSafeAreaInsets();
-
   return (
     <>
-      <View marginTop={IS_IOS ? insets.top : ANDROID_STATUS_BAR_HEIGHT} />
-
       {hasScroll ? (
         <ScrollView
-          marginHorizontal={hasPaddingHorizontal ? 20 : 0}
-          marginTop={12}
+          paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
+          showsVerticalScrollIndicator={false}
+          backgroundColor={'$bg'}
         >
-          {children}
+          <SafeAreaView>{children}</SafeAreaView>
         </ScrollView>
       ) : (
-        <View marginHorizontal={hasPaddingHorizontal ? 20 : 0} marginTop={12}>
-          {children}
+        <View
+          paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
+          backgroundColor={'$bg'}
+        >
+          <SafeAreaView>{children}</SafeAreaView>
         </View>
       )}
     </>

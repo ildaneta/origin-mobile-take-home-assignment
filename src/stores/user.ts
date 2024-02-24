@@ -8,6 +8,9 @@ import { IUser, IUserData, UserState } from '../types/user';
 type Actions = {
   setIsUserLogged: ({ isLogged }: Pick<IUser, 'isLogged'>) => void;
   setUserData: ({ email, name, uid }: IUserData) => void;
+  setCurrentScreenName: ({
+    currentScreenName,
+  }: Pick<UserState, 'currentScreenName'>) => void;
   resetUserData: () => void;
 };
 
@@ -18,6 +21,7 @@ const initialState: UserState = {
     name: '',
     email: '',
   },
+  currentScreenName: 'loginOptions',
 };
 
 export const useUserStore = create<UserState & Actions>()(
@@ -42,6 +46,10 @@ export const useUserStore = create<UserState & Actions>()(
             uid,
           },
         });
+      },
+
+      setCurrentScreenName: ({ currentScreenName }) => {
+        set({ currentScreenName });
       },
 
       resetUserData: () => {

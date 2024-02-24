@@ -14,7 +14,7 @@ import {
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import SignUp from './src/screens/SignUp';
+import { Routes } from './src/routes';
 
 export default function App() {
   let [fontsLoaded, fontError] = useFonts({
@@ -33,7 +33,7 @@ export default function App() {
         <TamaguiProvider config={config}>
           <StatusBar style="dark" />
 
-          <SignUp />
+          <Routes />
         </TamaguiProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

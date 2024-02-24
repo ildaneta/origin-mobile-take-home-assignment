@@ -1,4 +1,4 @@
-rootProject.name = 'origin'
+rootProject.name = 'Origin'
 
 dependencyResolutionManagement {
   versionCatalogs {

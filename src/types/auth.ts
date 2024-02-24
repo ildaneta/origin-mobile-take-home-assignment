@@ -5,6 +5,7 @@ interface IEmail {
 export interface ISignUp extends IEmail {
   name: string;
   password: string;
+  photo: string;
 }
 
 export interface ISignIn extends IEmail {

@@ -70,6 +70,7 @@ const SignIn = (): JSX.Element => {
             name: user.displayName,
             email: user.email,
             uid: user.uid,
+            photoUrl: user.photoURL,
           });
         }
 

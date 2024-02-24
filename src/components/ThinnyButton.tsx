@@ -24,11 +24,17 @@ const ThinnyButton = ({
       activeOpacity={hasBackground ? 0.8 : 0.1}
       {...rest}
     >
-      <View borderWidth={1} borderRadius={12} padding={6}>
+      <View
+        borderWidth={hasBackground ? 0 : 1}
+        borderRadius={12}
+        paddingVertical={6}
+        paddingHorizontal={12}
+      >
         <Text
           color={hasBackground ? '$white' : '$primary600'}
           fontSize={'$3'}
           alignSelf="center"
+          lineHeight={22}
         >
           {label}
         </Text>

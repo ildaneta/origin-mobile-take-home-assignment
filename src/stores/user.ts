@@ -7,10 +7,11 @@ import { IUser, IUserData, UserState } from '../types/user';
 
 type Actions = {
   setIsUserLogged: ({ isLogged }: Pick<IUser, 'isLogged'>) => void;
-  setUserData: ({ email, name, uid }: IUserData) => void;
+  setUserData: ({ email, name, uid, photoUrl }: IUserData) => void;
   setCurrentScreenName: ({
     currentScreenName,
   }: Pick<UserState, 'currentScreenName'>) => void;
+  setFileName: ({ filename }: Pick<IUserData, 'filename'>) => void;
   resetUserData: () => void;
 };
 
@@ -20,6 +21,8 @@ const initialState: UserState = {
     uid: '',
     name: '',
     email: '',
+    photoUrl: '',
+    filename: '',
   },
   currentScreenName: 'loginOptions',
 };
@@ -35,8 +38,8 @@ export const useUserStore = create<UserState & Actions>()(
         set({ userData: { ...userState, isLogged } });
       },
 
-      setUserData: ({ email, name, uid }) => {
-        const { isLogged } = get().userData;
+      setUserData: ({ email, name, uid, photoUrl }) => {
+        const { isLogged, filename } = get().userData;
 
         set({
           userData: {
@@ -44,12 +47,20 @@ export const useUserStore = create<UserState & Actions>()(
             email,
             name,
             uid,
+            photoUrl,
+            filename,
           },
         });
       },
 
       setCurrentScreenName: ({ currentScreenName }) => {
         set({ currentScreenName });
+      },
+
+      setFileName: ({ filename }) => {
+        const userDataState = get().userData;
+
+        set({ userData: { ...userDataState, filename } });
       },
 
       resetUserData: () => {

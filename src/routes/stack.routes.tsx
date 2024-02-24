@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginOptions from '../screens/LoginOptions';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
+import Home from '../screens/Home';
 
 import { useUserStore } from '../stores/user';
 
@@ -10,6 +11,7 @@ export type StackRoutes = {
   signIn: undefined;
   signUp: undefined;
   loginOptions: undefined;
+  home: undefined;
 };
 
 type ScreenMapping = {
@@ -17,7 +19,9 @@ type ScreenMapping = {
   component: React.ComponentType;
 };
 
-const publicscreenMappings: ScreenMapping[] = [];
+const publicscreenMappings: ScreenMapping[] = [
+  { name: 'home', component: Home },
+];
 
 const privateScreenMappings: ScreenMapping[] = [
   { name: 'signIn', component: SignIn },

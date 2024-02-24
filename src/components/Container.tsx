@@ -1,6 +1,5 @@
 import React from 'react';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native';
 
 import { View, ScrollView } from 'tamagui';
 
@@ -18,20 +17,24 @@ const Container = ({
   return (
     <>
       {hasScroll ? (
-        <ScrollView
-          paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
-          showsVerticalScrollIndicator={false}
-          backgroundColor={'$bg'}
-        >
-          <SafeAreaView>{children}</SafeAreaView>
-        </ScrollView>
+        <SafeAreaView>
+          <ScrollView
+            paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
+            showsVerticalScrollIndicator={false}
+            backgroundColor={'$bg'}
+          >
+            {children}
+          </ScrollView>
+        </SafeAreaView>
       ) : (
-        <View
-          paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
-          backgroundColor={'$bg'}
-        >
-          <SafeAreaView>{children}</SafeAreaView>
-        </View>
+        <SafeAreaView>
+          <View
+            paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
+            backgroundColor={'$bg'}
+          >
+            {children}
+          </View>
+        </SafeAreaView>
       )}
     </>
   );

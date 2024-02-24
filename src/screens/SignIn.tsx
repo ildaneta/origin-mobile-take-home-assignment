@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'tamagui';
+import { SafeAreaView } from 'react-native';
 
 import Container from '../components/Container';
 import HeaderBack from '../components/HeaderBack';
@@ -20,8 +21,6 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { StackRoutes } from '../routes/stack.routes';
 
 import { SCREEN_HEIGHT } from '../utils/device';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { signIn } from '../firebase/auth';
 import firebase from '@react-native-firebase/app';
@@ -102,7 +101,7 @@ const SignIn = (): JSX.Element => {
       alignItems="center"
       justifyContent="center"
       position="absolute"
-      bottom={0}
+      bottom={20}
       width={'100%'}
     >
       <Text

@@ -1,5 +1,4 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
 
 import { TamaguiProvider } from 'tamagui';
 import config from './tamagui.config';
@@ -31,8 +30,6 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <TamaguiProvider config={config}>
-          <StatusBar style="dark" />
-
           <Routes />
         </TamaguiProvider>
       </SafeAreaProvider>

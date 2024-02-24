@@ -12,7 +12,12 @@
           "package_name": "com.ildaneta.origin"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "918309766936-70o99t7p6h61j3q3kl1ikne12miecubr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyC9j1jePvItWzctb1PkwFP0ar3lFjuHO0o"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "918309766936-70o99t7p6h61j3q3kl1ikne12miecubr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "918309766936-ntda6t04nkd8njgkst650crshdvtms1v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ildaneta.origin"
+              }
+            }
+          ]
         }
       }
     }

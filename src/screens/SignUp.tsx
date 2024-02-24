@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View } from 'tamagui';
-import { Alert } from 'react-native';
+import { Alert, SafeAreaView } from 'react-native';
 
 import Container from '../components/Container';
 import Input from '../components/Input';
@@ -26,8 +26,6 @@ import { useUserStore } from '../stores/user';
 
 import { StackRoutes } from '../routes/stack.routes';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('name is required'),

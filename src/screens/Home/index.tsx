@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, RefreshControl } from 'react-native';
 
 import { Button, Image, View } from 'tamagui';
@@ -12,7 +12,8 @@ import { useUserStore } from '../../stores/user';
 
 import { OriginAPI } from '../../services/origin';
 
-import { useFocusEffect } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
+import { StackRoutes } from '../../routes/stack.routes';
 
 import { IGetTransactionsListResponse } from '../../types/transaction';
 
@@ -32,6 +33,8 @@ const Home = (): JSX.Element => {
   const {
     userData: { photoUrl, name },
   } = useUserStore();
+
+  const { navigate } = useNavigation<NavigationProp<StackRoutes, 'home'>>();
 
   const getTransactions = async () => {
     setIsRefreshing(true);
@@ -87,12 +90,9 @@ const Home = (): JSX.Element => {
     }
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      getTransactions();
-    }, [])
-  );
-
+  useEffect(() => {
+    getTransactions();
+  }, []);
   const Header = () => (
     <View marginTop={16} flexDirection="row" alignItems="center">
       <Image
@@ -163,7 +163,9 @@ const Home = (): JSX.Element => {
                 type={transaction.Type}
                 ammount={transaction.Amount}
                 date={transaction.Date}
-                onPress={() => {}}
+                onPress={() =>
+                  navigate('transactionDetails', { ...transaction })
+                }
               />
             )}
             ListFooterComponent={

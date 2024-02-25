@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'tamagui';
+import { Button, View } from 'tamagui';
 
 import Text from '../../../components/Text';
 
@@ -16,11 +16,12 @@ import { formatDate } from '../../../utils/formatDate';
 import { formatCurrency } from '../../../utils/formatCurrency';
 
 interface ITransactionItem {
-  title: string;
-  date: string;
-  category: 'shopping' | 'entertainment' | 'drinks and dinning';
-  type: 'invoice' | 'deposit' | 'payment' | 'withdraw';
+  vendor: string;
+  date: Date;
+  category: TransactionCategory;
+  type: TransactionType;
   ammount: number;
+  onPress: () => void;
 }
 
 interface ITransactionsCategoryProps {
@@ -35,11 +36,12 @@ interface ITransactionTypeProps {
 }
 
 const TransactionItem = ({
-  title,
+  vendor,
   date,
   category,
   type,
   ammount,
+  onPress,
 }: ITransactionItem): JSX.Element => {
   const transactionsCategoryMapping: Record<
     TransactionCategory,
@@ -78,19 +80,24 @@ const TransactionItem = ({
       color: '$red',
       signal: '-',
     },
-    [TransactionType.withdraw]: {
-      type: 'Payment',
-      color: '$primary700',
+    [TransactionType.withdrawal]: {
+      type: 'Withdrawal',
+      color: '$red',
       signal: '-',
     },
   };
 
   return (
-    <View marginBottom={12}>
+    <Button
+      unstyled
+      pressStyle={{ opacity: 0.8 }}
+      marginVertical={12}
+      onPress={onPress}
+    >
       <View flexDirection="row" alignItems="center">
         <View
-          width={32}
-          height={32}
+          width={'$2.5'}
+          height={'$2.5'}
           borderWidth={1}
           borderColor={'$primary300'}
           borderRadius={4}
@@ -98,11 +105,11 @@ const TransactionItem = ({
           alignItems="center"
           justifyContent="center"
         >
-          {transactionsCategoryMapping[category].icon}
+          {transactionsCategoryMapping[category]?.icon}
         </View>
 
         <Text fontSize={'$3'} width={'95%'} color="$primary300">
-          {title.toUpperCase()}
+          {vendor?.toUpperCase()}
         </Text>
       </View>
 
@@ -116,8 +123,10 @@ const TransactionItem = ({
           {formatDate(date)}
         </Text>
 
-        <Text fontSize={'$4'} color={transactionsTypeMapping[type].color}>
-          {`${transactionsTypeMapping[type].signal} ${formatCurrency(ammount)}`}
+        <Text fontSize={'$4'} color={transactionsTypeMapping[type]?.color}>
+          {`${transactionsTypeMapping[type]?.signal} ${formatCurrency(
+            ammount
+          )}`}
         </Text>
       </View>
 
@@ -129,20 +138,20 @@ const TransactionItem = ({
       >
         <View
           backgroundColor={'$gray100'}
-          paddingHorizontal={9}
-          paddingVertical={4}
+          paddingHorizontal={'$2.5'}
+          paddingVertical={'$1.5'}
           borderRadius={20}
         >
           <Text fontSize={'$1'} color="$primary400">
-            {transactionsCategoryMapping[category].category}
+            {transactionsCategoryMapping[category]?.category}
           </Text>
         </View>
 
         <Text fontSize={'$2'} color="$primary400">
-          {transactionsTypeMapping[type].type}
+          {transactionsTypeMapping[type]?.type}
         </Text>
       </View>
-    </View>
+    </Button>
   );
 };
 

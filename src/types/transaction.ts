@@ -31,7 +31,7 @@ export interface IGetTransactionsListResponse {
 export interface IPostUpdateTransactionCoordinates {
   id: number;
   lat: number;
-  long: number;
+  lon: number;
 }
 
 export interface IPostUploadTransactionReceipt {

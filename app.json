@@ -15,7 +15,10 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.ildaneta.origin",
-      "googleServicesFile": "./GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "config": {
+        "googleMapsApiKey": "Axxxxxxxxxxxxxxxxxxxxxxxx"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +26,12 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.ildaneta.origin",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "config": {
+        "googleMaps": {
+          "apiKey": "Axxxxxxxxxxxxxxxxxxxxxxxx"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -36,6 +44,12 @@
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos so you can select a selfie photo"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ]

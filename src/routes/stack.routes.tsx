@@ -4,14 +4,18 @@ import LoginOptions from '../screens/LoginOptions';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
+import TransactionDetails from '../screens/TransactionDetails';
 
 import { useUserStore } from '../stores/user';
+
+import { ITransactionsItem } from '../types/transaction';
 
 export type StackRoutes = {
   signIn: undefined;
   signUp: undefined;
   loginOptions: undefined;
   home: undefined;
+  transactionDetails: ITransactionsItem;
 };
 
 type ScreenMapping = {
@@ -21,6 +25,7 @@ type ScreenMapping = {
 
 const publicscreenMappings: ScreenMapping[] = [
   { name: 'home', component: Home },
+  { name: 'transactionDetails', component: TransactionDetails },
 ];
 
 const privateScreenMappings: ScreenMapping[] = [

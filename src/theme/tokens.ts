@@ -8,6 +8,7 @@ export const tokens = createTokens({
     white: '#fff',
 
     green: '#0E7505',
+    red: '#D40000',
 
     primary100: '#999',
     primary200: '#888',

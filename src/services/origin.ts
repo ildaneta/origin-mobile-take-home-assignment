@@ -32,11 +32,11 @@ export const OriginAPI = {
   postUpdateTransactionCoordinates: async ({
     id,
     lat,
-    long,
+    lon,
   }: IPostUpdateTransactionCoordinates) => {
     return await API.post(`transactions/${id}/coordinates`, {
       Lat: lat,
-      Lon: long,
+      Lon: lon,
     });
   },
 

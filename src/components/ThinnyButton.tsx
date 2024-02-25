@@ -3,15 +3,18 @@ import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
 
 import Text from './Text';
 import { View } from 'tamagui';
+import { ActivityIndicator } from 'react-native';
 
 interface IThinnyButton extends RectButtonProps {
   hasBackground: boolean;
   label: string;
+  isLoading?: boolean;
 }
 
 const ThinnyButton = ({
   hasBackground,
   label,
+  isLoading,
   ...rest
 }: IThinnyButton): JSX.Element => {
   return (
@@ -29,7 +32,18 @@ const ThinnyButton = ({
         borderRadius={12}
         paddingVertical={6}
         paddingHorizontal={12}
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="center"
       >
+        {isLoading && (
+          <ActivityIndicator
+            size={'small'}
+            color="#111"
+            style={{ marginRight: 4 }}
+          />
+        )}
+
         <Text
           color={hasBackground ? '$white' : '$primary600'}
           fontSize={'$3'}

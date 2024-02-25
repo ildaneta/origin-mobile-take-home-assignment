@@ -7,6 +7,7 @@ import Text from '../../components/Text';
 import TransactionDetailsItem from './components/TransactionDetailsItem';
 import HeaderBack from '../../components/HeaderBack';
 import Upload from '../../components/Upload';
+import ThinnyButton from '../../components/ThinnyButton';
 
 import {
   NavigationProp,
@@ -28,6 +29,16 @@ import { OriginAPI } from '../../services/origin';
 
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
+import {
+  getUserPosition,
+  requestUserLocationPermission,
+} from '../../helpers/userLocation';
+
+interface IUserCoordinates {
+  lat: number;
+  lon: number;
+}
+
 const TransactionDetails = (): JSX.Element => {
   const {
     params: {
@@ -46,6 +57,11 @@ const TransactionDetails = (): JSX.Element => {
   const [transactionReceiptURL, setTransactionReceiptURL] =
     useState(ReceiptImage);
   const [isLoadingReceiptUpload, setIsLoadingReceiptUpload] = useState(false);
+  const [userCoordinates, setUserCoordinates] = useState<IUserCoordinates>(
+    {} as IUserCoordinates
+  );
+  const [isLoadingUserCoordinates, setIsLoadingUserCoordinates] =
+    useState(false);
 
   const {
     userData: { uid },
@@ -111,6 +127,64 @@ const TransactionDetails = (): JSX.Element => {
     }
   };
 
+  const requestUserLocation = async () => {
+    const { status, canAskAgain } = await requestUserLocationPermission();
+
+    if (status !== 'granted' && !canAskAgain) {
+      Alert.alert(
+        'Sorry, you refused the request',
+        'To attach your current location is necessary to allow the permission'
+      );
+
+      return;
+    }
+
+    if (status !== 'granted' && canAskAgain) {
+      const { status } = await requestUserLocationPermission();
+
+      if (status === 'granted') {
+        const { userLat, userLon } = await getUserPosition();
+
+        updateUserLocation(userLat, userLon);
+      }
+
+      if (status !== 'granted') {
+        Alert.alert(
+          'Sorry, you refused the request',
+          'To attach your current location is necessary to allow the permission'
+        );
+
+        return;
+      }
+    }
+
+    if (status === 'granted') {
+      const { userLat, userLon } = await getUserPosition();
+
+      updateUserLocation(userLat, userLon);
+    }
+  };
+
+  const updateUserLocation = async (lat: number, lon: number) => {
+    setIsLoadingUserCoordinates(true);
+
+    try {
+      await OriginAPI.postUpdateTransactionCoordinates({
+        id: Id,
+        lat,
+        lon,
+      }).then(() => {
+        setUserCoordinates({ lat, lon });
+      });
+    } catch (error) {
+      console.error('Error updating transaction coordinates: ', error);
+    } finally {
+      setIsLoadingUserCoordinates(false);
+
+      Alert.alert('Sorry, we had an error', 'Please, try again');
+    }
+  };
+
   const Map = () => (
     <View>
       <Text
@@ -124,16 +198,29 @@ const TransactionDetails = (): JSX.Element => {
 
       <MapView
         provider={PROVIDER_GOOGLE}
-        style={{ width: SCREEN_WIDTH - 40, height: 200 }}
+        style={{ width: SCREEN_WIDTH - 40, height: 200, marginBottom: 20 }}
         initialRegion={{
           latitudeDelta: 0.05,
           longitudeDelta: 0.05,
-          latitude: Lat,
-          longitude: Lon,
+          latitude: !!userCoordinates.lat ? userCoordinates.lat : Lat,
+          longitude: !!userCoordinates.lon ? userCoordinates.lon : Lon,
         }}
       >
-        <Marker coordinate={{ latitude: Lat, longitude: Lon }} />
+        <Marker
+          coordinate={{
+            latitude: !!userCoordinates.lat ? userCoordinates.lat : Lat,
+            longitude: !!userCoordinates.lon ? userCoordinates.lon : Lon,
+          }}
+        />
       </MapView>
+
+      <ThinnyButton
+        hasBackground={false}
+        label="Attach your current position"
+        onPress={requestUserLocation}
+        isLoading={isLoadingUserCoordinates}
+        enabled={!isLoadingUserCoordinates}
+      />
     </View>
   );
 

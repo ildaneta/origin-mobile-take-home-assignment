@@ -1,4 +1,4 @@
-export const formatDate = (date: string) => {
+export const formatDate = (date: Date) => {
   const currentDate = new Date(date);
 
   const formattedDate = new Intl.DateTimeFormat('en-US', {

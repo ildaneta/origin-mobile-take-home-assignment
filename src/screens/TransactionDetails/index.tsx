@@ -20,11 +20,13 @@ import * as ImagePicker from 'expo-image-picker';
 
 import storage from '@react-native-firebase/storage';
 
-import { IS_IOS } from '../../utils/device';
+import { IS_IOS, SCREEN_WIDTH } from '../../utils/device';
 
 import { useUserStore } from '../../stores/user';
 
 import { OriginAPI } from '../../services/origin';
+
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const TransactionDetails = (): JSX.Element => {
   const {
@@ -109,6 +111,32 @@ const TransactionDetails = (): JSX.Element => {
     }
   };
 
+  const Map = () => (
+    <View>
+      <Text
+        marginTop={39}
+        marginBottom={12}
+        fontSize={'$3'}
+        color="$primary300"
+      >
+        Location
+      </Text>
+
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={{ width: SCREEN_WIDTH - 40, height: 200 }}
+        initialRegion={{
+          latitudeDelta: 0.05,
+          longitudeDelta: 0.05,
+          latitude: Lat,
+          longitude: Lon,
+        }}
+      >
+        <Marker coordinate={{ latitude: Lat, longitude: Lon }} />
+      </MapView>
+    </View>
+  );
+
   const Receipt = () => (
     <>
       <Text
@@ -157,16 +185,11 @@ const TransactionDetails = (): JSX.Element => {
           category={Category}
         />
 
+        <Map />
+
         <Receipt />
 
-        <Text
-          marginTop={39}
-          marginBottom={12}
-          fontSize={'$3'}
-          color="$primary300"
-        >
-          Location
-        </Text>
+        <View height={20} />
       </>
     </Container>
   );

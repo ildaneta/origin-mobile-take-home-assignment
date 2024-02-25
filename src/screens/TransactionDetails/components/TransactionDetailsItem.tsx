@@ -101,7 +101,7 @@ const TransactionDetailsItem = ({
           {vendor}
         </Text>
 
-        <Text fontSize={'$4'} color={transactionTypeMapping[type].color}>
+        <Text fontSize={'$5'} color={transactionTypeMapping[type].color}>
           {`${transactionTypeMapping[type].signal} ${formatCurrency(amount)}`}
         </Text>
       </View>

@@ -47,12 +47,7 @@ const StackRoutes = (): JSX.Element => {
       screenOptions={{
         animation: 'fade',
         headerShown: false,
-        statusBarColor: 'white',
         statusBarStyle: 'dark',
-        contentStyle: {
-          backgroundColor: 'white',
-          padding: 0,
-        },
       }}
       initialRouteName={currentScreenName}
     >

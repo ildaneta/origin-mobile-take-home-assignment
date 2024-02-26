@@ -9,6 +9,7 @@ import Text from '../../components/Text';
 import TransactionItem from './components/TransactionItem';
 
 import { useUserStore } from '../../stores/user';
+import { useTransactionFilter } from '../../stores/transactionFilter';
 
 import { OriginAPI } from '../../services/origin';
 
@@ -35,6 +36,7 @@ const Home = (): JSX.Element => {
   const {
     userData: { photoUrl, name },
   } = useUserStore();
+  const { orderBy, value } = useTransactionFilter();
 
   const { navigate } = useNavigation<NavigationProp<StackRoutes, 'home'>>();
 
@@ -49,7 +51,26 @@ const Home = (): JSX.Element => {
         });
 
       if (transactionsListResponse) {
-        setTransactionsList(transactionsListResponse);
+        const filteredTransactions =
+          transactionsListResponse.Transactions.filter((transaction) => {
+            if (orderBy === 'Type' && !!value) {
+              return transaction.Type === value.toLowerCase();
+            }
+
+            if (orderBy === 'Category' && !!value) {
+              return transaction.Category === value.toLowerCase();
+            }
+          });
+
+        if (!!orderBy && !!value) {
+          setTransactionsList({
+            ...transactionsListResponse,
+            Transactions: [...filteredTransactions],
+          });
+        } else {
+          setTransactionsList(transactionsListResponse);
+        }
+
         setCurrentPage(currentPage + 1);
       }
     } catch (error) {
@@ -71,7 +92,27 @@ const Home = (): JSX.Element => {
               pageSize,
             });
 
-          if (transactionsListResponse) {
+          const filteredTransactions =
+            transactionsListResponse.Transactions.filter((transaction) => {
+              if (orderBy === 'Type' && !!value) {
+                return transaction.Type === value.toLowerCase();
+              }
+
+              if (orderBy === 'Category' && !!value) {
+                return transaction.Category === value.toLowerCase();
+              }
+            });
+
+          if (!!orderBy && !!value) {
+            setTransactionsList((prevList) => ({
+              ...prevList,
+              ...transactionsListResponse,
+              Transactions: [
+                ...(prevList?.Transactions ?? []),
+                ...(filteredTransactions ?? []),
+              ],
+            }));
+          } else {
             setTransactionsList((prevList) => ({
               ...prevList,
               ...transactionsListResponse,
@@ -80,9 +121,8 @@ const Home = (): JSX.Element => {
                 ...(transactionsListResponse.Transactions ?? []),
               ],
             }));
-
-            setCurrentPage(currentPage + 1);
           }
+          setCurrentPage(currentPage + 1);
         }
       }
     } catch (error) {
@@ -95,6 +135,10 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     getTransactions();
   }, []);
+
+  useEffect(() => {
+    getTransactions();
+  }, [orderBy, value]);
 
   const Header = () => (
     <View marginTop={16 + insets.top} flexDirection="row" alignItems="center">

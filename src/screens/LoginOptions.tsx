@@ -17,6 +17,33 @@ const LoginOptions = (): JSX.Element => {
     useNavigation<NavigationProp<StackRoutes, 'loginOptions'>>();
   const { height } = useWindowDimensions();
 
+  const LoginOptionsButtons = () => (
+    <View
+      flexDirection="row"
+      width={'100%'}
+      justifyContent="space-between"
+      marginBottom={40}
+      paddingHorizontal={20}
+      bottom={0}
+      position="absolute"
+    >
+      <View width={'48%'}>
+        <ThinnyButton
+          label={'Sign up'}
+          hasBackground
+          onPress={() => navigate('signUp')}
+        />
+      </View>
+      <View width={'48%'}>
+        <ThinnyButton
+          label={'Sign in'}
+          hasBackground={false}
+          onPress={() => navigate('signIn')}
+        />
+      </View>
+    </View>
+  );
+
   return (
     <>
       <Container hasScroll={false}>
@@ -64,30 +91,7 @@ const LoginOptions = (): JSX.Element => {
         </View>
       </Container>
 
-      <View
-        flexDirection="row"
-        width={'100%'}
-        justifyContent="space-between"
-        marginBottom={40}
-        paddingHorizontal={20}
-        bottom={0}
-        position="absolute"
-      >
-        <View width={'48%'}>
-          <ThinnyButton
-            label={'Sign up'}
-            hasBackground
-            onPress={() => navigate('signUp')}
-          />
-        </View>
-        <View width={'48%'}>
-          <ThinnyButton
-            label={'Sign in'}
-            hasBackground={false}
-            onPress={() => navigate('signIn')}
-          />
-        </View>
-      </View>
+      <LoginOptionsButtons />
     </>
   );
 };

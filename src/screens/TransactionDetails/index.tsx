@@ -261,7 +261,12 @@ const TransactionDetails = (): JSX.Element => {
   );
 
   const Header = () => (
-    <View paddingHorizontal={10} marginTop={insets.top + 16} paddingBottom={20}>
+    <View
+      paddingHorizontal={10}
+      paddingTop={insets.top + 16}
+      paddingBottom={20}
+      backgroundColor={'$white'}
+    >
       <HeaderBack onPress={goBack} />
     </View>
   );

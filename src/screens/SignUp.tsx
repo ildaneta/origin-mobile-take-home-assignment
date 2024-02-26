@@ -165,7 +165,11 @@ const SignUp = (): JSX.Element => {
   };
 
   const Header = () => (
-    <View paddingHorizontal={10} marginTop={16 + insets.top}>
+    <View
+      paddingHorizontal={10}
+      paddingTop={16 + insets.top}
+      backgroundColor={'$white'}
+    >
       <HeaderBack onPress={() => goBack()} />
     </View>
   );

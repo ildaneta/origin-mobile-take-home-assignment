@@ -228,100 +228,96 @@ const SignUp = (): JSX.Element => {
       <Header />
 
       <Container>
-        <>
-          <Text alignSelf="center" color="$primary700" fontSize={'$4'}>
-            Get started with Origin
-          </Text>
+        <Text alignSelf="center" color="$primary700" fontSize={'$4'}>
+          Get started with Origin
+        </Text>
 
-          <Text alignSelf="center" color="$gray300" fontSize={'$3'}>
-            Try Origin free
-          </Text>
+        <Text alignSelf="center" color="$gray300" fontSize={'$3'}>
+          Try Origin free
+        </Text>
 
-          <View marginTop={40} />
+        <View marginTop={40} />
 
-          <Input
+        <Input
+          control={control}
+          name="name"
+          hasError={!!errors.name}
+          label="Name"
+          isFocused={isNameFocused}
+          onBlur={() => setIsNameFocused(false)}
+          onFocus={() => setIsNameFocused(true)}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+
+        {!!errors.name && <ErrorMessage message={errors?.name?.message} />}
+
+        <View marginTop={12} />
+
+        <Input
+          control={control}
+          name="email"
+          hasError={!!errors.email}
+          label="Email"
+          isFocused={isEmailFocused}
+          onBlur={() => setIsEmailFocused(false)}
+          onFocus={() => setIsEmailFocused(true)}
+        />
+
+        {!!errors.email && <ErrorMessage message={errors?.email?.message} />}
+
+        <View marginTop={12} />
+
+        <Input
+          control={control}
+          name="password"
+          hasError={!!errors.password}
+          label="Password"
+          isFocused={isPasswordFocused}
+          onBlur={() => setIsPasswordFocused(false)}
+          onFocus={() => setIsPasswordFocused(true)}
+          iconButton={
+            isSecureTextEntryPasswordEnabled ? (
+              <EyeOff color={'$primary300'} />
+            ) : (
+              <Eye color={'$primary300'} />
+            )
+          }
+          iconButtonPress={() =>
+            setIsSecureTextEntryPasswordEnabled(
+              !isSecureTextEntryPasswordEnabled
+            )
+          }
+          secureTextEntry={isSecureTextEntryPasswordEnabled}
+        />
+
+        {!!errors.password && (
+          <ErrorMessage message={errors?.password?.message} />
+        )}
+
+        <View marginTop={12} />
+
+        {!!image ? (
+          <SelectedImage />
+        ) : (
+          <Controller
+            name="photo"
             control={control}
-            name="name"
-            hasError={!!errors.name}
-            label="Name"
-            isFocused={isNameFocused}
-            onBlur={() => setIsNameFocused(false)}
-            onFocus={() => setIsNameFocused(true)}
-            autoCapitalize="none"
-            autoCorrect={false}
+            defaultValue=""
+            render={({ field }) => (
+              <Upload
+                hasError={!!errors?.photo}
+                onPress={pickImage}
+                allowedTypes="JPG, PNG, JPEG"
+                label="Upload your selfie"
+              />
+            )}
           />
+        )}
 
-          {!!errors.name && <ErrorMessage message={errors?.name?.message} />}
+        {!!errors.password && <ErrorMessage message={errors?.photo?.message} />}
 
-          <View marginTop={12} />
-
-          <Input
-            control={control}
-            name="email"
-            hasError={!!errors.email}
-            label="Email"
-            isFocused={isEmailFocused}
-            onBlur={() => setIsEmailFocused(false)}
-            onFocus={() => setIsEmailFocused(true)}
-          />
-
-          {!!errors.email && <ErrorMessage message={errors?.email?.message} />}
-
-          <View marginTop={12} />
-
-          <Input
-            control={control}
-            name="password"
-            hasError={!!errors.password}
-            label="Password"
-            isFocused={isPasswordFocused}
-            onBlur={() => setIsPasswordFocused(false)}
-            onFocus={() => setIsPasswordFocused(true)}
-            iconButton={
-              isSecureTextEntryPasswordEnabled ? (
-                <EyeOff color={'$primary300'} />
-              ) : (
-                <Eye color={'$primary300'} />
-              )
-            }
-            iconButtonPress={() =>
-              setIsSecureTextEntryPasswordEnabled(
-                !isSecureTextEntryPasswordEnabled
-              )
-            }
-            secureTextEntry={isSecureTextEntryPasswordEnabled}
-          />
-
-          {!!errors.password && (
-            <ErrorMessage message={errors?.password?.message} />
-          )}
-
-          <View marginTop={12} />
-
-          {!!image ? (
-            <SelectedImage />
-          ) : (
-            <Controller
-              name="photo"
-              control={control}
-              defaultValue=""
-              render={({ field }) => (
-                <Upload
-                  hasError={!!errors?.photo}
-                  onPress={pickImage}
-                  allowedTypes="JPG, PNG, JPEG"
-                  label="Upload your selfie"
-                />
-              )}
-            />
-          )}
-
-          {!!errors.password && (
-            <ErrorMessage message={errors?.photo?.message} />
-          )}
-
-          <ActionButton />
-        </>
+        <ActionButton />
       </Container>
     </>
   );

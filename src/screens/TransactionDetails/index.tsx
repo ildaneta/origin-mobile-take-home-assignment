@@ -271,21 +271,19 @@ const TransactionDetails = (): JSX.Element => {
       <Header />
 
       <Container>
-        <>
-          <TransactionDetailsItem
-            date={Date}
-            vendor={Vendor}
-            amount={Amount}
-            type={Type}
-            category={Category}
-          />
+        <TransactionDetailsItem
+          date={Date}
+          vendor={Vendor}
+          amount={Amount}
+          type={Type}
+          category={Category}
+        />
 
-          <Map />
+        <Map />
 
-          <Receipt />
+        <Receipt />
 
-          <View height={20} />
-        </>
+        <View height={20} />
       </Container>
     </>
   );

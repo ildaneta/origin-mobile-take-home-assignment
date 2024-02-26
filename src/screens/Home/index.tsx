@@ -137,44 +137,42 @@ const Home = (): JSX.Element => {
 
   return (
     <Container hasScroll={false}>
-      <>
-        <Header />
+      <Header />
 
-        <TransactionsListHeader />
+      <TransactionsListHeader />
 
-        <FlashList
-          estimatedItemSize={transactionsList?.TotalRecords ?? 200}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={({ Id }) => String(Id)}
-          data={transactionsList?.Transactions}
-          ItemSeparatorComponent={() => (
-            <View marginBottom={5} borderWidth={1} borderColor={'$gray100'} />
-          )}
-          refreshControl={
-            <RefreshControl
-              refreshing={isRefreshing}
-              onRefresh={getTransactions}
-            />
-          }
-          onEndReached={loadMoreTransactions}
-          onEndReachedThreshold={0.1}
-          renderItem={({ item: transaction }) => (
-            <TransactionItem
-              vendor={transaction.Vendor}
-              category={transaction.Category}
-              type={transaction.Type}
-              ammount={transaction.Amount}
-              date={transaction.Date}
-              onPress={() => navigate('transactionDetails', { ...transaction })}
-            />
-          )}
-          ListFooterComponent={
-            isLoading ? <ActivityIndicator size="large" color="#111" /> : <></>
-          }
-        />
+      <FlashList
+        estimatedItemSize={transactionsList?.TotalRecords ?? 200}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={({ Id }) => String(Id)}
+        data={transactionsList?.Transactions}
+        ItemSeparatorComponent={() => (
+          <View marginBottom={5} borderWidth={1} borderColor={'$gray100'} />
+        )}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={getTransactions}
+          />
+        }
+        onEndReached={loadMoreTransactions}
+        onEndReachedThreshold={0.1}
+        renderItem={({ item: transaction }) => (
+          <TransactionItem
+            vendor={transaction.Vendor}
+            category={transaction.Category}
+            type={transaction.Type}
+            ammount={transaction.Amount}
+            date={transaction.Date}
+            onPress={() => navigate('transactionDetails', { ...transaction })}
+          />
+        )}
+        ListFooterComponent={
+          isLoading ? <ActivityIndicator size="large" color="#111" /> : <></>
+        }
+      />
 
-        <View paddingBottom={insets.bottom} />
-      </>
+      <View paddingBottom={insets.bottom} />
     </Container>
   );
 };

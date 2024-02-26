@@ -7,19 +7,30 @@ import Text from '../../components/Text';
 import HeaderBack from '../../components/HeaderBack';
 import Select from './components/Select';
 import Selector from './components/Selector';
+import ThinnyButton from '../../components/ThinnyButton';
 
 import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { StackRoutes } from '../../routes/stack.routes';
+
+import { useTransactionFilter } from '../../stores/transactionFilter';
 
 const TransactionsFilter = (): JSX.Element => {
   const insets = useSafeAreaInsets();
   const { goBack } =
     useNavigation<NavigationProp<StackRoutes, 'transactionsFilter'>>();
 
-  const [orderBy, setOrderBy] = useState('');
+  const {
+    value: valueFilter,
+    orderBy: orderByFilter,
+    setValueTransactionFilter,
+    setOrderByTransactionFilter,
+    resetFilter,
+  } = useTransactionFilter();
+
+  const [orderBy, setOrderBy] = useState(orderByFilter);
   const [isOrderBySelectOpened, setIsOrderBySelectOpened] = useState(false);
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(valueFilter);
   const [isValueSelectOpened, setIsValueSelectOpened] = useState(false);
 
   const orderByValues = [
@@ -55,11 +66,16 @@ const TransactionsFilter = (): JSX.Element => {
     setOrderBy(selectedItem);
     setIsOrderBySelectOpened(false);
     setValue('');
+
+    setOrderByTransactionFilter({ orderBy: selectedItem });
+    setValueTransactionFilter({ value: '' });
   };
 
   const handleValueChange = (selectedItem: string) => {
     setValue(selectedItem);
     setIsValueSelectOpened(false);
+
+    setValueTransactionFilter({ value: selectedItem });
   };
 
   const OrderBySelect = () => (
@@ -132,6 +148,18 @@ const TransactionsFilter = (): JSX.Element => {
             <ValueSelect />
           </>
         )}
+
+        <View marginTop={30} />
+
+        <ThinnyButton
+          label="Reset filters"
+          onPress={() => {
+            resetFilter();
+            setValue('');
+            setOrderBy('');
+          }}
+          hasBackground={false}
+        />
       </Container>
     </>
   );

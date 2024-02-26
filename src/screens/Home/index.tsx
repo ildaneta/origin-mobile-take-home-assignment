@@ -129,7 +129,11 @@ const Home = (): JSX.Element => {
         Transactions
       </Text>
 
-      <Button unstyled pressStyle={{ opacity: 0.7 }}>
+      <Button
+        unstyled
+        pressStyle={{ opacity: 0.7 }}
+        onPress={() => navigate('transactionsFilter')}
+      >
         <CircleEllipsis color="$primary600" size={22} />
       </Button>
     </View>

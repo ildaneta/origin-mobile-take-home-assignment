@@ -36,6 +36,8 @@ import { IS_IOS } from '../utils/device';
 
 import { uploadCurrentUserPhotoURL } from '../helpers/uploadCurrentUserPhotoURL';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const schema = Yup.object().shape({
   name: Yup.string().required('name is required'),
   email: Yup.string().required('email is required').email().trim(),
@@ -58,6 +60,7 @@ const SignUp = (): JSX.Element => {
     useUserStore();
   const { goBack } =
     useNavigation<NavigationProp<StackRoutes, 'loginOptions'>>();
+  const insets = useSafeAreaInsets();
 
   const {
     control,
@@ -162,11 +165,9 @@ const SignUp = (): JSX.Element => {
   };
 
   const Header = () => (
-    <SafeAreaView>
-      <View paddingHorizontal={10} marginTop={16}>
-        <HeaderBack onPress={() => goBack()} />
-      </View>
-    </SafeAreaView>
+    <View paddingHorizontal={10} marginTop={16 + insets.top}>
+      <HeaderBack onPress={() => goBack()} />
+    </View>
   );
 
   const ActionButton = () => (

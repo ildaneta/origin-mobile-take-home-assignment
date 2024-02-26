@@ -34,6 +34,8 @@ import {
   requestUserLocationPermission,
 } from '../../helpers/userLocation';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 interface IUserCoordinates {
   lat: number;
   lon: number;
@@ -69,6 +71,7 @@ const TransactionDetails = (): JSX.Element => {
 
   const { goBack } =
     useNavigation<NavigationProp<StackRoutes, 'transactionDetails'>>();
+  const insets = useSafeAreaInsets();
 
   const pickReceiptImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -257,28 +260,34 @@ const TransactionDetails = (): JSX.Element => {
     </>
   );
 
+  const Header = () => (
+    <View paddingHorizontal={10} marginTop={insets.top + 16} paddingBottom={20}>
+      <HeaderBack onPress={goBack} />
+    </View>
+  );
+
   return (
-    <Container>
-      <>
-        <View marginTop={20} marginBottom={30}>
-          <HeaderBack onPress={goBack} />
-        </View>
+    <>
+      <Header />
 
-        <TransactionDetailsItem
-          date={Date}
-          vendor={Vendor}
-          amount={Amount}
-          type={Type}
-          category={Category}
-        />
+      <Container>
+        <>
+          <TransactionDetailsItem
+            date={Date}
+            vendor={Vendor}
+            amount={Amount}
+            type={Type}
+            category={Category}
+          />
 
-        <Map />
+          <Map />
 
-        <Receipt />
+          <Receipt />
 
-        <View height={20} />
-      </>
-    </Container>
+          <View height={20} />
+        </>
+      </Container>
+    </>
   );
 };
 

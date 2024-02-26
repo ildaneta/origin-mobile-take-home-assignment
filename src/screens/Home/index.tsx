@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, RefreshControl } from 'react-native';
 
 import { Button, Image, View } from 'tamagui';
@@ -9,6 +9,7 @@ import Text from '../../components/Text';
 import TransactionItem from './components/TransactionItem';
 
 import { useUserStore } from '../../stores/user';
+import { useTransactionFilter } from '../../stores/transactionFilter';
 
 import { OriginAPI } from '../../services/origin';
 
@@ -17,9 +18,9 @@ import { StackRoutes } from '../../routes/stack.routes';
 
 import { IGetTransactionsListResponse } from '../../types/transaction';
 
-import { SCREEN_HEIGHT } from '../../utils/device';
-
 import { FlashList } from '@shopify/flash-list';
+
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Home = (): JSX.Element => {
   let pageSize = 200;
@@ -30,9 +31,12 @@ const Home = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  const insets = useSafeAreaInsets();
+
   const {
     userData: { photoUrl, name },
   } = useUserStore();
+  const { orderBy, value } = useTransactionFilter();
 
   const { navigate } = useNavigation<NavigationProp<StackRoutes, 'home'>>();
 
@@ -47,7 +51,26 @@ const Home = (): JSX.Element => {
         });
 
       if (transactionsListResponse) {
-        setTransactionsList(transactionsListResponse);
+        const filteredTransactions =
+          transactionsListResponse.Transactions.filter((transaction) => {
+            if (orderBy === 'Type' && !!value) {
+              return transaction.Type === value.toLowerCase();
+            }
+
+            if (orderBy === 'Category' && !!value) {
+              return transaction.Category === value.toLowerCase();
+            }
+          });
+
+        if (!!orderBy && !!value) {
+          setTransactionsList({
+            ...transactionsListResponse,
+            Transactions: [...filteredTransactions],
+          });
+        } else {
+          setTransactionsList(transactionsListResponse);
+        }
+
         setCurrentPage(currentPage + 1);
       }
     } catch (error) {
@@ -69,7 +92,27 @@ const Home = (): JSX.Element => {
               pageSize,
             });
 
-          if (transactionsListResponse) {
+          const filteredTransactions =
+            transactionsListResponse.Transactions.filter((transaction) => {
+              if (orderBy === 'Type' && !!value) {
+                return transaction.Type === value.toLowerCase();
+              }
+
+              if (orderBy === 'Category' && !!value) {
+                return transaction.Category === value.toLowerCase();
+              }
+            });
+
+          if (!!orderBy && !!value) {
+            setTransactionsList((prevList) => ({
+              ...prevList,
+              ...transactionsListResponse,
+              Transactions: [
+                ...(prevList?.Transactions ?? []),
+                ...(filteredTransactions ?? []),
+              ],
+            }));
+          } else {
             setTransactionsList((prevList) => ({
               ...prevList,
               ...transactionsListResponse,
@@ -78,9 +121,8 @@ const Home = (): JSX.Element => {
                 ...(transactionsListResponse.Transactions ?? []),
               ],
             }));
-
-            setCurrentPage(currentPage + 1);
           }
+          setCurrentPage(currentPage + 1);
         }
       }
     } catch (error) {
@@ -93,8 +135,13 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     getTransactions();
   }, []);
+
+  useEffect(() => {
+    getTransactions();
+  }, [orderBy, value]);
+
   const Header = () => (
-    <View marginTop={16} flexDirection="row" alignItems="center">
+    <View marginTop={16 + insets.top} flexDirection="row" alignItems="center">
       <Image
         source={{ uri: photoUrl ?? 'https://', cache: 'force-cache' }}
         width={42}
@@ -126,7 +173,11 @@ const Home = (): JSX.Element => {
         Transactions
       </Text>
 
-      <Button unstyled pressStyle={{ opacity: 0.7 }}>
+      <Button
+        unstyled
+        pressStyle={{ opacity: 0.7 }}
+        onPress={() => navigate('transactionsFilter')}
+      >
         <CircleEllipsis color="$primary600" size={22} />
       </Button>
     </View>
@@ -134,50 +185,42 @@ const Home = (): JSX.Element => {
 
   return (
     <Container hasScroll={false}>
-      <>
-        <Header />
+      <Header />
 
-        <TransactionsListHeader />
+      <TransactionsListHeader />
 
-        <View flexGrow={1} height={SCREEN_HEIGHT - 200}>
-          <FlashList
-            estimatedItemSize={transactionsList?.TotalRecords ?? 200}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={({ Id }) => String(Id)}
-            data={transactionsList?.Transactions}
-            ItemSeparatorComponent={() => (
-              <View marginBottom={5} borderWidth={1} borderColor={'$gray100'} />
-            )}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={getTransactions}
-              />
-            }
-            onEndReached={loadMoreTransactions}
-            onEndReachedThreshold={0.1}
-            renderItem={({ item: transaction }) => (
-              <TransactionItem
-                vendor={transaction.Vendor}
-                category={transaction.Category}
-                type={transaction.Type}
-                ammount={transaction.Amount}
-                date={transaction.Date}
-                onPress={() =>
-                  navigate('transactionDetails', { ...transaction })
-                }
-              />
-            )}
-            ListFooterComponent={
-              isLoading ? (
-                <ActivityIndicator size="large" color="#111" />
-              ) : (
-                <></>
-              )
-            }
+      <FlashList
+        estimatedItemSize={transactionsList?.TotalRecords ?? 200}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={({ Id }) => String(Id)}
+        data={transactionsList?.Transactions}
+        ItemSeparatorComponent={() => (
+          <View marginBottom={5} borderWidth={1} borderColor={'$gray100'} />
+        )}
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={getTransactions}
           />
-        </View>
-      </>
+        }
+        onEndReached={loadMoreTransactions}
+        onEndReachedThreshold={0.1}
+        renderItem={({ item: transaction }) => (
+          <TransactionItem
+            vendor={transaction.Vendor}
+            category={transaction.Category}
+            type={transaction.Type}
+            ammount={transaction.Amount}
+            date={transaction.Date}
+            onPress={() => navigate('transactionDetails', { ...transaction })}
+          />
+        )}
+        ListFooterComponent={
+          isLoading ? <ActivityIndicator size="large" color="#111" /> : <></>
+        }
+      />
+
+      <View paddingBottom={insets.bottom} />
     </Container>
   );
 };

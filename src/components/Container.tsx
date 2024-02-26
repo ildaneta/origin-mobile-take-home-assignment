@@ -5,7 +5,7 @@ import { View, ScrollView } from 'tamagui';
 
 interface IContainer {
   hasScroll?: boolean;
-  children: JSX.Element;
+  children: React.ReactNode;
   hasPaddingHorizontal?: boolean;
 }
 
@@ -17,24 +17,22 @@ const Container = ({
   return (
     <>
       {hasScroll ? (
-        <SafeAreaView>
-          <ScrollView
-            paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
-            showsVerticalScrollIndicator={false}
-            backgroundColor={'$bg'}
-          >
-            {children}
-          </ScrollView>
-        </SafeAreaView>
+        <ScrollView
+          paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
+          showsVerticalScrollIndicator={false}
+          backgroundColor={'$bg'}
+          flex={1}
+        >
+          {children}
+        </ScrollView>
       ) : (
-        <SafeAreaView>
-          <View
-            paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
-            backgroundColor={'$bg'}
-          >
-            {children}
-          </View>
-        </SafeAreaView>
+        <View
+          paddingHorizontal={hasPaddingHorizontal ? 20 : 0}
+          backgroundColor={'$bg'}
+          flex={1}
+        >
+          {children}
+        </View>
       )}
     </>
   );

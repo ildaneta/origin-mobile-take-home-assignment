@@ -1,5 +1,6 @@
 import React from 'react';
 import { View } from 'tamagui';
+import { useWindowDimensions } from 'react-native';
 
 import Container from '../components/Container';
 import Text from '../components/Text';
@@ -9,10 +10,39 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { StackRoutes } from '../routes/stack.routes';
 
 import FinancialIllustration from '../assets/illustrations/financial.svg';
+import FinancialIllustrationSmall from '../assets/illustrations/financial-small.svg';
 
 const LoginOptions = (): JSX.Element => {
   const { navigate } =
     useNavigation<NavigationProp<StackRoutes, 'loginOptions'>>();
+  const { height } = useWindowDimensions();
+
+  const LoginOptionsButtons = () => (
+    <View
+      flexDirection="row"
+      width={'100%'}
+      justifyContent="space-between"
+      marginBottom={40}
+      paddingHorizontal={20}
+      bottom={0}
+      position="absolute"
+    >
+      <View width={'48%'}>
+        <ThinnyButton
+          label={'Sign up'}
+          hasBackground
+          onPress={() => navigate('signUp')}
+        />
+      </View>
+      <View width={'48%'}>
+        <ThinnyButton
+          label={'Sign in'}
+          hasBackground={false}
+          onPress={() => navigate('signIn')}
+        />
+      </View>
+    </View>
+  );
 
   return (
     <>
@@ -24,12 +54,16 @@ const LoginOptions = (): JSX.Element => {
             fontWeight={'500'}
             alignSelf="center"
             marginTop={30}
-            marginBottom={40}
+            marginBottom={30}
           >
             Origin Financial
           </Text>
 
-          <FinancialIllustration />
+          {height < 700 ? (
+            <FinancialIllustrationSmall />
+          ) : (
+            <FinancialIllustration />
+          )}
 
           <Text
             color="$primary700"
@@ -48,6 +82,8 @@ const LoginOptions = (): JSX.Element => {
             alignSelf="center"
             marginTop={'$1.5'}
             textAlign="center"
+            numberOfLines={3}
+            lineBreakMode="tail"
           >
             Origin helps you track expenses in real time, create monthly
             budgets, and manage your subscriptions
@@ -55,30 +91,7 @@ const LoginOptions = (): JSX.Element => {
         </View>
       </Container>
 
-      <View
-        flexDirection="row"
-        width={'100%'}
-        justifyContent="space-between"
-        marginBottom={40}
-        paddingHorizontal={20}
-        bottom={0}
-        position="absolute"
-      >
-        <View width={'48%'}>
-          <ThinnyButton
-            label={'Sign up'}
-            hasBackground
-            onPress={() => navigate('signUp')}
-          />
-        </View>
-        <View width={'48%'}>
-          <ThinnyButton
-            label={'Sign in'}
-            hasBackground={false}
-            onPress={() => navigate('signIn')}
-          />
-        </View>
-      </View>
+      <LoginOptionsButtons />
     </>
   );
 };

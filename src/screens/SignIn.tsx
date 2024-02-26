@@ -27,6 +27,8 @@ import firebase from '@react-native-firebase/app';
 
 import { useUserStore } from '../stores/user';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const schema = Yup.object().shape({
   email: Yup.string().required('email is required').email().trim(),
   password: Yup.string().required('password is required').min(8).max(8).trim(),
@@ -43,6 +45,7 @@ const SignIn = (): JSX.Element => {
 
   const { goBack, navigate } =
     useNavigation<NavigationProp<StackRoutes, 'signIn'>>();
+  const insets = useSafeAreaInsets();
 
   const { setCurrentScreenName, setIsUserLogged, setUserData } = useUserStore();
 
@@ -141,11 +144,13 @@ const SignIn = (): JSX.Element => {
   );
 
   const Header = () => (
-    <SafeAreaView>
-      <View paddingHorizontal={10} marginTop={16}>
-        <HeaderBack onPress={() => goBack()} />
-      </View>
-    </SafeAreaView>
+    <View
+      paddingHorizontal={10}
+      paddingTop={16 + insets.top}
+      backgroundColor={'$white'}
+    >
+      <HeaderBack onPress={() => goBack()} />
+    </View>
   );
 
   return (

@@ -36,9 +36,9 @@ const Selector = ({ options, onPress, filter }: ISelector) => {
             flexDirection="row"
             justifyContent="space-between"
           >
-            <Text>{item.name}</Text>
+            <Text color={'$primary500'}>{item.name}</Text>
 
-            {item.name === filter && <Check />}
+            {item.name === filter && <Check color={'$primary500'} />}
           </Button>
 
           {index !== options.length - 1 && (

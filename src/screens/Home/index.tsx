@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, RefreshControl } from 'react-native';
 
 import { Button, Image, View } from 'tamagui';
@@ -17,9 +17,9 @@ import { StackRoutes } from '../../routes/stack.routes';
 
 import { IGetTransactionsListResponse } from '../../types/transaction';
 
-import { SCREEN_HEIGHT } from '../../utils/device';
-
 import { FlashList } from '@shopify/flash-list';
+
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const Home = (): JSX.Element => {
   let pageSize = 200;
@@ -29,6 +29,8 @@ const Home = (): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const insets = useSafeAreaInsets();
 
   const {
     userData: { photoUrl, name },
@@ -93,8 +95,9 @@ const Home = (): JSX.Element => {
   useEffect(() => {
     getTransactions();
   }, []);
+
   const Header = () => (
-    <View marginTop={16} flexDirection="row" alignItems="center">
+    <View marginTop={16 + insets.top} flexDirection="row" alignItems="center">
       <Image
         source={{ uri: photoUrl ?? 'https://', cache: 'force-cache' }}
         width={42}
@@ -139,44 +142,38 @@ const Home = (): JSX.Element => {
 
         <TransactionsListHeader />
 
-        <View flexGrow={1} height={SCREEN_HEIGHT - 200}>
-          <FlashList
-            estimatedItemSize={transactionsList?.TotalRecords ?? 200}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={({ Id }) => String(Id)}
-            data={transactionsList?.Transactions}
-            ItemSeparatorComponent={() => (
-              <View marginBottom={5} borderWidth={1} borderColor={'$gray100'} />
-            )}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={getTransactions}
-              />
-            }
-            onEndReached={loadMoreTransactions}
-            onEndReachedThreshold={0.1}
-            renderItem={({ item: transaction }) => (
-              <TransactionItem
-                vendor={transaction.Vendor}
-                category={transaction.Category}
-                type={transaction.Type}
-                ammount={transaction.Amount}
-                date={transaction.Date}
-                onPress={() =>
-                  navigate('transactionDetails', { ...transaction })
-                }
-              />
-            )}
-            ListFooterComponent={
-              isLoading ? (
-                <ActivityIndicator size="large" color="#111" />
-              ) : (
-                <></>
-              )
-            }
-          />
-        </View>
+        <FlashList
+          estimatedItemSize={transactionsList?.TotalRecords ?? 200}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={({ Id }) => String(Id)}
+          data={transactionsList?.Transactions}
+          ItemSeparatorComponent={() => (
+            <View marginBottom={5} borderWidth={1} borderColor={'$gray100'} />
+          )}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={getTransactions}
+            />
+          }
+          onEndReached={loadMoreTransactions}
+          onEndReachedThreshold={0.1}
+          renderItem={({ item: transaction }) => (
+            <TransactionItem
+              vendor={transaction.Vendor}
+              category={transaction.Category}
+              type={transaction.Type}
+              ammount={transaction.Amount}
+              date={transaction.Date}
+              onPress={() => navigate('transactionDetails', { ...transaction })}
+            />
+          )}
+          ListFooterComponent={
+            isLoading ? <ActivityIndicator size="large" color="#111" /> : <></>
+          }
+        />
+
+        <View paddingBottom={insets.bottom} />
       </>
     </Container>
   );

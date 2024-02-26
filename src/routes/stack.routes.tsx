@@ -5,6 +5,7 @@ import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import TransactionDetails from '../screens/TransactionDetails';
+import TransactionsFilter from '../screens/TransactionsFilter';
 
 import { useUserStore } from '../stores/user';
 
@@ -16,6 +17,7 @@ export type StackRoutes = {
   loginOptions: undefined;
   home: undefined;
   transactionDetails: ITransactionsItem;
+  transactionsFilter: undefined;
 };
 
 type ScreenMapping = {
@@ -26,6 +28,7 @@ type ScreenMapping = {
 const publicscreenMappings: ScreenMapping[] = [
   { name: 'home', component: Home },
   { name: 'transactionDetails', component: TransactionDetails },
+  { name: 'transactionsFilter', component: TransactionsFilter },
 ];
 
 const privateScreenMappings: ScreenMapping[] = [

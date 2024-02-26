@@ -5,7 +5,7 @@ import { View, ScrollView } from 'tamagui';
 
 interface IContainer {
   hasScroll?: boolean;
-  children: JSX.Element;
+  children: React.ReactNode;
   hasPaddingHorizontal?: boolean;
 }
 

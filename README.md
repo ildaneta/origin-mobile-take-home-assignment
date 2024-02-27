@@ -21,7 +21,7 @@ This app was built to demonstrate my skills related with the mobile take home as
 ## Final images
 
 Login options screen
-![Login options screen](https://github.com/ildaneta/ildaneta/assets/21963291/9753c177-b1a3-451f-88fe-cd5ef50faee2)
+![Login options screen](https://github.com/ildaneta/ildaneta/assets/21963291/687e06c0-9751-44f0-9bc3-dadcdf9b88dc)
 
 Sign up screen
 ![Sign up screen](https://github.com/ildaneta/ildaneta/assets/21963291/5a4b90ac-3c80-4961-b29b-56ef8cef7cfa)

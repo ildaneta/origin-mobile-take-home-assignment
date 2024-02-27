@@ -181,10 +181,9 @@ const TransactionDetails = (): JSX.Element => {
       });
     } catch (error) {
       console.error('Error updating transaction coordinates: ', error);
+      Alert.alert('Sorry, we had an error', 'Please, try again');
     } finally {
       setIsLoadingUserCoordinates(false);
-
-      Alert.alert('Sorry, we had an error', 'Please, try again');
     }
   };
 

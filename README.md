@@ -112,3 +112,7 @@ If you are new to React Native, this is a helpful introduction: https://reactnat
 ### Whimsical
 
 [Ideas, workflows and basic logic about the application.](https://whimsical.com/origin-EAu6NGfs2PhK4aQMh5eC5Y)
+
+### Github project
+
+[Kanban project with tasks and subtasks.](https://github.com/users/ildaneta/projects/2/views/3)

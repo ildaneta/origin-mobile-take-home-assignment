@@ -1,98 +1,114 @@
 # Origin Mobile Take Home Assignment
-## **Introduction**
 
-This assignment assesses your skills and approach to building a mobile application using React Native. The focus is on creating an application that includes user authentication, transaction management, and integration of specific mobile features. It's important to consider that there will also be a React web desktop version of the same application. While you are not required to write the desktop version, your design should be scalable and maintainable, keeping in mind the existence of the web version.
+## Introduction
 
-## **Assignment Overview**
+This app was built to demonstrate my skills related with the mobile take home assignment.
 
-Your task is to create a simple mobile application with the following features:
+## Technologies utilized
 
-### **1. Sign-In and Sign-Up Page**
+- Expo
+- TypeScript
+- Axios
+- Firebase
+- Tamagui
+- Google fonts
+- FlashList
+- Expo image picker
+- Expo location
+- React Hook Form + Yup
+- Zustand
 
-- **Sign-In Page**: Allow users to sign in to their account.
-- **Sign-Up Page**: Allow new users to create an account. During the sign-up process, users must enter basic information (like name, email, password, etc.) and upload a selfie.
+## Final images
 
-### **2. Transactions Listing Page**
+Login options screen
+![Login options screen](https://github.com/ildaneta/ildaneta/assets/21963291/9753c177-b1a3-451f-88fe-cd5ef50faee2)
 
-- Display a list of transactions associated with the logged-in user. Each list item should have a summary of the transaction (e.g., date, amount, type).
-    - Required: pull to refresh
-    - Optional: sorting, filtering (client side)
+Sign up screen
+![Sign up screen](https://github.com/ildaneta/ildaneta/assets/21963291/5a4b90ac-3c80-4961-b29b-56ef8cef7cfa)
 
-### **3. Transaction Details Page**
+Sign in screen
+![Sign in screen](https://github.com/ildaneta/ildaneta/assets/21963291/64e7d70e-54da-49a3-af03-56a47c154913)
 
-- When a user selects a transaction from the list, they should be navigated to a detailed view of the transaction.
-    - **Required**: Allow users to attach the current GPS latitude and longitude coordinates to the transaction.
-    - **Optional**: Provide an option to attach a receipt to the transaction.
-    - Optional: Display location on the map
+Home screen
+![Home screen](https://github.com/ildaneta/ildaneta/assets/21963291/b8e03354-2ebb-47f1-85b0-a7b421938555)
 
-### **4. App State Management Considerations**
+Filter screen
+![Filter screen](https://github.com/ildaneta/ildaneta/assets/21963291/f0794115-5b1a-46bd-9202-4593788f18a8)
 
-- Ensure that the application handles the app state effectively, especially during typical mobile interactions such as using the power button or home button. The app should maintain a consistent state and user experience.
-- Handle offline mode
+Transaction details screen
+![Transaction details screen](https://github.com/ildaneta/ildaneta/assets/21963291/cc01be2c-c866-40bb-89fe-77e34f534540)
 
-## **Technical Requirements**
+## Setup
 
-- The application should be developed using React Native.
-- Ensure the app is compatible with both iOS and Android.
-- Implement proper error handling and validation, especially for the sign-in and sign-up processes.
-- Write clean, modular, and reusable code. Consider component reusability for the React web desktop version.
-- Include a README file with clear instructions on how to set up and run your application.
+1. Install NVM or Node.js LTS release - v18
+2. Git
+3. Yarn
+4. Watchman
+5. Expo CLI
+6. Android Studio - recommended version Giraffe
+7. Graddle version
+   ![Graddle version](https://github.com/ildaneta/ildaneta/assets/21963291/7ab81c2e-837b-4c0e-969a-b3c0d767cbe1)
+8. XCode - recommended version 15.1
 
-## Available Resources
+## Recommended tools
 
-You have access to the following API’s:
+[Visual Studio Editor](https://code.visualstudio.com/download)
 
-**Transactions - Listing** 
+## Developing
 
-**Query parameters**
+If you are new to React Native, this is a helpful introduction: https://reactnative.dev/docs/getting-started
 
-page: required
+## Run project
 
-pageSize: required
+1. Create a `.env` file with the property `EXPO_PUBLIC_GOOGLE_API_KEY=` and the respective value of Google API Key
+2. Clone the project and access the project folder
+3. Install the dependencies by running:
 
-```markdown
-GET https://tque3jpn1e.execute-api.us-east-1.amazonaws.com/mobile-tha/transactions?page=?&pageSize=?
+   ```bash
+    yarn
+
+    cd ios && npx pod-install && cd ..
+   ```
+
+4. Set the environment variable value within android and ios files by running:
+
+   ```bash
+    npx expo prebuild
+   ```
+
+5. Install the build within each device emulator
+   ```
+   yarn android
+   yarn ios
+   ```
+
+## Project aspects
+
+#### Folder architecture
+
 ```
 
-**Transactions - Details**
-
-```markdown
-GET https://tque3jpn1e.execute-api.us-east-1.amazonaws.com/mobile-tha/transactions/{id}
+├── assets              # Assets folder for app icon and splashscreen
+├── src
+│   ├── @types          # Types declarations to images .png.d.ts or .svg.d.ts
+│   ├── assets          # Assets folder for icons, illustrations
+│   ├── components      # Components reutilized
+│   ├── firebase        # Has subfolders regarding with functionality like, auth, firestore and storage
+│   ├── helpers         # Methods to help specific screens
+│   ├── routes          # Navigation configuration
+│   ├── screens         # Screens (can have or not a folder with specific components)
+│   ├── services        # API methods
+│   ├── stores          # Zustand stores
+│   ├── theme           # Files to configure Tamagui tokens and fonts
+│   ├── utils           # Utils methods
+│
+│   tamagui.config.ts   # Set up of tamagui
 ```
 
-**Transactions - Update coordinates**
+### Figma
 
-```markdown
-POST https://tque3jpn1e.execute-api.us-east-1.amazonaws.com/mobile-tha/transactions/{id}/coordinates
-```
+[Origin home assignment figma project.](https://www.figma.com/file/3o4Hx4TA7tbrj1ZBPlQfNp/Origin?type=design&node-id=53-793&mode=design&t=T02APmAahzYQrqYC-0)
 
-Body
+### Whimsical
 
-```
-{
-    "Lat": 1, --double,required, case sensitive
-    "Lon":1 --double, required, case sensitive
-}
-```
-
-**Transactions - Upload receipt**
-
-```markdown
-POST https://tque3jpn1e.execute-api.us-east-1.amazonaws.com/mobile-tha/transactions/{id}/receipt
-```
-
-Body
-
-```markdown
-{
-   "ReceiptImageUrl": "foo" --string,required, case sensitive
-}
-```
-
-Note: both POST APIs do not update internal resources as it would affect other candidates, thus such APIs are for demonstration only.
-
-## **Submission Guidelines**
-
-- Provide the source code via a GitHub repository.
-- Include a video demonstration of the app covering all the functionalities.
-- Document any assumptions made and your thought process in the README file.
+[Ideas, workflows and basic logic about the application.](https://whimsical.com/origin-EAu6NGfs2PhK4aQMh5eC5Y)

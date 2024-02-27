@@ -28,7 +28,9 @@ const Select = ({
       borderColor={'$primary200'}
     >
       <View>
-        <Text color={'$primary600'}>{filter ? filter : placeholder}</Text>
+        <Text color={'$primary600'} lineHeight={22}>
+          {filter ? filter : placeholder}
+        </Text>
       </View>
 
       {isOpened ? <ChevronUp /> : <ChevronDown />}

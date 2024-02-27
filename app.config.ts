@@ -9,7 +9,7 @@ module.exports = {
     splash: {
       image: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#d7f5ff',
     },
     assetBundlePatterns: ['**/*'],
     ios: {
@@ -23,7 +23,6 @@ module.exports = {
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#ffffff',
       },
       package: 'com.ildaneta.origin',
       googleServicesFile: './google-services.json',

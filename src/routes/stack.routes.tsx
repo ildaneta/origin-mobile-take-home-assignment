@@ -51,6 +51,7 @@ const StackRoutes = (): JSX.Element => {
         animation: 'fade',
         headerShown: false,
         statusBarStyle: 'dark',
+        statusBarColor: 'white',
       }}
       initialRouteName={currentScreenName}
     >

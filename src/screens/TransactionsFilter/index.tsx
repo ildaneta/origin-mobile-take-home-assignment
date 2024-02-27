@@ -39,16 +39,16 @@ const TransactionsFilter = (): JSX.Element => {
   ];
 
   const categoryValues = [
-    { name: 'Shopping', id: 1 },
-    { name: 'Entertainment', id: 2 },
-    { name: 'Drinks and dinning', id: 3 },
+    { name: 'Shopping', id: 3 },
+    { name: 'Entertainment', id: 4 },
+    { name: 'Drinks and dinning', id: 5 },
   ];
 
   const typeValues = [
-    { name: 'Invoice', id: 1 },
-    { name: 'Payment', id: 2 },
-    { name: 'Deposit', id: 3 },
-    { name: 'Withdrawal', id: 4 },
+    { name: 'Invoice', id: 6 },
+    { name: 'Payment', id: 7 },
+    { name: 'Deposit', id: 8 },
+    { name: 'Withdrawal', id: 9 },
   ];
 
   const Header = () => (

@@ -12,10 +12,13 @@ import { StackRoutes } from '../routes/stack.routes';
 import FinancialIllustration from '../assets/illustrations/financial.svg';
 import FinancialIllustrationSmall from '../assets/illustrations/financial-small.svg';
 
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
 const LoginOptions = (): JSX.Element => {
   const { navigate } =
     useNavigation<NavigationProp<StackRoutes, 'loginOptions'>>();
   const { height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
 
   const LoginOptionsButtons = () => (
     <View
@@ -47,7 +50,11 @@ const LoginOptions = (): JSX.Element => {
   return (
     <>
       <Container hasScroll={false}>
-        <View justifyContent="center" alignItems="center">
+        <View
+          justifyContent="center"
+          alignItems="center"
+          paddingTop={insets.top}
+        >
           <Text
             color="$primary700"
             fontSize={'$6'}
